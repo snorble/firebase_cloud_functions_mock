@@ -14,7 +14,7 @@ dependencies:
     sdk: flutter
 
   mockito: ^5.0.0
-  cloud_functions: ^0.6.0+1
+  cloud_functions: ^3.0.0
 
 dev_dependencies:
   flutter_test:
