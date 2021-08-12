@@ -12,7 +12,10 @@ class MockCloudFunctions extends Mock implements FirebaseFunctions {
     return json.encode(parameters);
   }
 
-  void mockResult({String functionName, String json, dynamic parameters}) {
+  void mockResult(
+      {required String functionName,
+      required String json,
+      dynamic parameters}) {
     functionName = parameters?.isNotEmpty ?? false
         ? functionName + _convertMapToJson(parameters)
         : functionName;
@@ -28,12 +31,16 @@ class MockCloudFunctions extends Mock implements FirebaseFunctions {
             : functionName);
     assert(
         _jsonStore[functionName] != null, 'No mock result for $functionName');
-    return _jsonStore[functionName];
+    return _jsonStore[functionName]!;
+  }
+
+  HttpsCallable getHttpsCallable({required String functionName}) {
+    return HttpsCallableMock._(this, functionName);
   }
 
   @override
-  HttpsCallable getHttpsCallable({String functionName}) {
-    return HttpsCallableMock._(this, functionName);
+  HttpsCallable httpsCallable(String name, {HttpsCallableOptions? options}) {
+    return HttpsCallableMock._(this, name);
   }
 }
 
@@ -43,11 +50,6 @@ class HttpsCallableMock extends Mock implements HttpsCallable {
   final MockCloudFunctions _cloudFunctions;
   final String _functionName;
 
-  // Future<HttpsCallableResult<T>> call<T>([dynamic parameters]) async {
-  //   assert(_debugIsValidParameterType(parameters));
-  //   return HttpsCallableResult<T>._(await delegate.call(parameters));
-  // }
-
   @override
   Future<HttpsCallableResult<T>> call<T>([dynamic parameters]) {
     final decoded =
@@ -56,7 +58,7 @@ class HttpsCallableMock extends Mock implements HttpsCallable {
   }
 
   /// The timeout to use when calling the function. Defaults to 60 seconds.
-  Duration timeout;
+  Duration timeout = const Duration(seconds: 60);
 }
 
 class HttpsCallableResultMock<T> extends Mock

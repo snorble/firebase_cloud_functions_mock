@@ -6,14 +6,13 @@ repository: https://github.com/technixo/firebase_cloud_functions_mock
 homepage: https://github.com/technixo/firebase_cloud_functions_mock
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
-  flutter: ">=1.17.0 <2.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  mockito: ^5.0.0
+  mockito: ^5.0.14
   cloud_functions: ^3.0.0
 
 dev_dependencies:
